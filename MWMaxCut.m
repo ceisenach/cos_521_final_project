@@ -52,12 +52,12 @@ while(alphamax - alphamin >eps/2)
 
     %update weights
     Xt = vec*vec';
-    beta = 1e-3;
+    beta = 1e-1;
     w0 = w0*(1 - beta*((1/alpha)*trace(W*Xt) - 1));
     for i=1:n
         e = zeros(n,1);
         e(i) = 1;  
-        w(i) = w(i)*(1 - beta*(trace(-e*e'*Xt)) + 1);    
+        w(i) = w(i)*(1 - beta*(trace(-e*e'*Xt) + 1));    
     end
 
     wn = sum(w) + w0;
