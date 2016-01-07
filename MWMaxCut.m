@@ -1,10 +1,8 @@
-function [alpha]=MWMaxCut(W,n)
+function [alpha]=MWMaxCut(W,n,eps)
 
 
 alphamin = 1/n;
 alphamax = 1;
-
-eps = 1e-6;
 
 %R
 R = n;
@@ -53,8 +51,8 @@ while(alphamax - alphamin >eps/2)
     end
 
     %update weights
-    Xt = R*vec*vec';
-    beta = 1e-1;
+    Xt = vec*vec';
+    beta = 1e-3;
     w0 = w0*(1 - beta*((1/alpha)*trace(W*Xt) - 1));
     for i=1:n
         e = zeros(n,1);
@@ -66,6 +64,7 @@ while(alphamax - alphamin >eps/2)
     w0 = w0/wn;
     w = w/wn;
     
+    % Sanity check on updated weights
     wmin = min(w0,min(w));
 
     if wmin < 0

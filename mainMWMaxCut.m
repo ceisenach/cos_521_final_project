@@ -15,12 +15,12 @@ cvx_begin sdp
     variable X(n,n) symmetric
     maximize( trace(Cn*X) )
     for i=1:n
-        X(i,i) == 1;
+        X(i,i) <= 1;
     end
     X >= 0;  
 cvx_end
 
-opt_mw = MWMaxCut(Cn,n);
+opt_mw = MWMaxCut(Cn,n,1e-5);
 
 fprintf('Optimum From CVX: %5.5f\n',cvx_optval)
 fprintf('Optimum From MW Algorithm: %5.5f\n',opt_mw)
