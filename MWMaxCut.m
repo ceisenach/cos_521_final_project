@@ -17,7 +17,7 @@ w = w/Nw;
 
 %iteration
 niter = 0;
-tic
+
 while(alphamax - alphamin >eps/2)
 
     
@@ -74,4 +74,3 @@ while(alphamax - alphamin >eps/2)
 niter = niter + 1;
 
 end
-toc
