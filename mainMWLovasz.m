@@ -3,7 +3,7 @@ close all
 clc
 
 %generate the graph
-n = 50;
+n = 200;
 p = 1/2;
 [ A ] = GraphGen( n, p );
 
@@ -44,47 +44,10 @@ cvx_end
 
 
 
-% %%
-% %MW method
-% alphamin = 1;
-% alphamax = n;
-% %R
-% r = 2*n;
-% 
-% %define weights
-% w0 = 1;
-% wp1 = ones(1,n);
-% wp2 = ones(1,n);
-% wp3 = ones(n,n);
-% wn1 = ones(1,n);
-% wn2 = ones(1,n);
-% wn3 = ones(n,n);
-% 
-% 
-% %LOOP
-% 
-% %define alpha
-% alpha = (alphamin + alphamax)/2;
-% 
-% %builds matrix C
-% 
-% 
-% %compute largest eigenvector
-% C = rand(n+1,n+1);
-% toler = 1e-5;
-% start = rand(n+1,1);
-% [vec,value]=PowerMethod(start,C,toler);
-% x = vec/value;
-% 
-% %update weights
-% 
-% %if feasible
-% 
-% %if not feasible
-% 
-% %end LOOP
-% 
+eps = 1e-6;
+[alpha,niter]=MWLovasz(A,n,eps);
 
+Z(1,1)/alpha
 
 
 
