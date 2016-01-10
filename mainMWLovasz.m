@@ -3,7 +3,7 @@ close all
 clc
 
 %generate the graph
-n = 200;
+n = 50;
 p = 1/2;
 [ A ] = GraphGen( n, p );
 
@@ -42,12 +42,19 @@ cvx_begin sdp
     Z >= 0;
 cvx_end
 
-
-
+%%%%%%%%%%%
+% study the dependence on beta
+%precision
 eps = 1e-6;
-[alpha,niter]=MWLovasz(A,n,eps);
+%parameter for the update
+Alpha = zeros(1,20); 
+for k=1:length(Alpha)
+    
+    beta = (2/3)^k;
+    [alpha,niter]=MWLovasz(A,n,eps,beta);
+    Alpha(k) = alpha;
+end
 
-Z(1,1)/alpha
 
 
 
