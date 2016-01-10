@@ -20,24 +20,11 @@ cvx_begin sdp
     X >= 0;  
 cvx_end
 
-beta = 1e-1;
-opt_mw = MWMaxCut(Cn,n,1e-5, beta);
+beta = 0.01;
+tic;
+[opt_mw,X_mw] = MWMaxCut(Cn,n,0.05, beta);
+toc;
 
 fprintf('Optimum From CVX: %5.5f\n',cvx_optval)
 fprintf('Optimum From MW Algorithm: %5.5f\n',opt_mw)
 fprintf('Ratio of CVX/MW: %5.5f\n',cvx_optval/opt_mw)
-
-%%%%%%%%%%%
-% study the dependence on beta
-%precision
-eps = 1e-6;
-%parameter for the update
-Alpha = zeros(1,20); 
-for k=1:length(Alpha)
-    
-    beta = (2/3)^k;
-    alpha = MWMaxCut(Cn,n,eps, beta);
-    Alpha(k) = alpha;
-    
-end
-    
