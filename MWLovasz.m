@@ -1,8 +1,7 @@
-function [alpha,niter]=MWLovasz(A,n,eps)
+function [alpha,niter]=MWLovasz(A,n,eps,beta)
 
 %%
-%parameter for the update
-beta = 1e-1;
+
 %bound on the optimum
 alphamin = 1;
 alphamax = n;
@@ -81,7 +80,7 @@ while(alphamax - alphamin >eps/2)
     end
 
     %update weights
-    Xt = vec*vec';   
+    Xt = R*vec*vec';   
     w0 = w0*(1 - beta*(-(1/alpha)*Xt(1,1) + 1));
     for i=1:n
         w1p(i) = w1p(i)*(1 - beta*(Xt(1,i+1) - 1));
