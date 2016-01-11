@@ -15,7 +15,7 @@ niter = 0;
 Xfeas = zeros(n);
 
 %BINARY SEARCH
-while(alphamax - alphamin >eps/2)
+while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
     alpha = (alphamin + alphamax)/2;
     done = 0;
     feasible = 1;
