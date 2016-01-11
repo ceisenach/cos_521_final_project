@@ -41,10 +41,7 @@ while(alphamax - alphamin >eps/2)
             M = M + w(i)*(-e*e' + (1/R)*eye(n));
         end
         
-        [V,D] = eig(M);
-        eigv_max = max(diag(D));
-        idx = find(diag(D) == eigv_max);
-        vec = V(:,idx);
+        [vec,eigv_max] = max_eigen(M,1);
         if (eigv_max < -delta) %infeasible
            done = 1;
            feasible = 0;
