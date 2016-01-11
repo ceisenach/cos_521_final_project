@@ -15,7 +15,7 @@ niter = 0;
 Xfeas = zeros(n);
 
 %BINARY SEARCH
-while(alphamax - alphamin >eps/2)
+while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
     alpha = (alphamin + alphamax)/2;
     done = 0;
     feasible = 1;
@@ -73,11 +73,11 @@ while(alphamax - alphamin >eps/2)
         % check if we have an epsilon-feasible X
         ef = 1;
         for i=1:n
-            if 1 - X_T(i,i) < -eps
+            if (ef == 1)&&(1 - X_T(i,i) < -eps)
                 ef = 0;
             end
         end
-        if (1/alpha)*trace(W*X_T) - 1 < - eps
+        if (ef == 1)&&((1/alpha)*trace(W*X_T) - 1 < - eps)
             ef = 0;
         end
         if ef == 1

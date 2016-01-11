@@ -10,7 +10,7 @@ if mode == 1
     idx = find(diag(D) == eival);
     eivec = V(:,idx);
 elseif mode == 2
-    [U,V,D] = lanczos(A,2);
+    [U,V,D] = lanczos(A,5);
     eival = max(diag(D));
     idx = find(diag(D) == eival);
     eivec = V*U(:,idx);
