@@ -3,7 +3,7 @@ close all
 clc
 
 %generate the graph (uniform weights on the graph)
-n = 10;
+n = 50;
 p = 1/2;
 [ A ] = GraphGen( n, p );
 
