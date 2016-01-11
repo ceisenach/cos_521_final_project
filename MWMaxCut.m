@@ -41,7 +41,7 @@ while(alphamax - alphamin >eps/2)
             M = M + w(i)*(-e*e' + (1/R)*eye(n));
         end
         
-        [vec,eigv_max] = max_eigen(M,1);
+        [vec,eigv_max] = max_eigen(M,2);
         if (eigv_max < -delta) %infeasible
            done = 1;
            feasible = 0;

@@ -8,7 +8,7 @@
 % V is the transformation matrix
 % D are the eigenvalues
 
-function [U,V,D] = lanczos_ortho(A, m)
+function [U,V,D] = lanczos(A, m)
 
 [n,k] = size(A);
 V = zeros(k,m+1);
@@ -19,16 +19,15 @@ beta(2)=0;
 for j=2:m+2
 
     w = A*V(:,j);
-    w = A'*w;
-    w = w - beta(j)*V(:,j-1);
     alpha(j) = w'*V(:,j);
+    w = w - beta(j)*V(:,j-1);
     w = w - alpha(j)*V(:,j);
 
     %orthogonalize
-    for k=2:j-1
-      tmpalpha = w'*V(:,k);
-      w = w -tmpalpha*V(:,k);
-    end
+%    for k=2:j-1
+%      tmpalpha = w'*V(:,k);
+%      w = w -tmpalpha*V(:,k);
+%    end
 
     beta(j+1) = norm(w,2);
     V(:,j+1) = w/beta(j+1);
