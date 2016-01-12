@@ -57,7 +57,7 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
         for i=1:n
             e  = zeros(n+1,1);
             e(i+1) = 1;    
-            M = M + (w1i_p(i) - w1i_n(i))*(e*e0' - (1/R)*eye(n+1)) + (wii_p(i) - wii_n(i))*(e*e' - (1/R)*eye(n+1));
+            M = M + (w1i_p(i) - w1i_n(i))*(e0*e' - (1/R)*eye(n+1)) + (wii_p(i) - wii_n(i))*(e*e' - (1/R)*eye(n+1));
         end
         %add up the weights: equality to 0 constraints
         for i=1:n
@@ -67,7 +67,7 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
                     ej  = zeros(n+1,1);
                     ei(i+1) = 1;
                     ej(j+1) = 1;
-                    M = M + (wij(i,j) - wij(j,i))*(ej*ei');
+                    M = M + (wij(i,j) - wij(j,i))*(ei*ej');
                 end
             end
         end
@@ -84,8 +84,8 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
         for i=1:n
             w1i_p(i) = w1i_p(i)*(1 - beta*(Xt(1,i+1) - 1));
             w1i_n(i) = w1i_n(i)*(1 - beta*(-Xt(1,i+1) + 1));
-            wii_p(i) = w1i_p(i)*(1 - beta*(Xt(i+1,i+1) - 1));
-            wii_n(i) = w1i_n(i)*(1 - beta*(-Xt(i+1,i+1) + 1));
+            wii_p(i) = wii_p(i)*(1 - beta*(Xt(i+1,i+1) - 1));
+            wii_n(i) = wii_n(i)*(1 - beta*(-Xt(i+1,i+1) + 1));
         end
         for i=1:n
             for j=i:n
@@ -100,8 +100,8 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
         w11  = w11/wnorm;
         w1i_p = w1i_p/wnorm;
         w1i_n = w1i_n/wnorm;
-        wii_p = w1i_p/wnorm;
-        wii_n = w1i_n/wnorm;
+        wii_p = wii_p/wnorm;
+        wii_n = wii_n/wnorm;
         wij  = wij/wnorm;
 
         % Sanity check on updated weights
