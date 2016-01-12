@@ -3,7 +3,7 @@ close all
 clc
 
 %generate the graph
-n = 50;
+n = 10;
 p = 1/2;
 [ A ] = GraphGen( n, p );
 
@@ -42,20 +42,13 @@ cvx_begin sdp
     Z >= 0;
 cvx_end
 
-%%%%%%%%%%%
-% study the dependence on beta
-%precision
-eps = 1e-6;
-%parameter for the update
-Alpha = zeros(1,20); 
-for k=1:length(Alpha)
-    
-    beta = (2/3)^k;
-    [alpha,niter]=MWLovasz(A,n,eps,beta);
-    Alpha(k) = alpha;
-end
+% MW Algorithm
+beta = 0.001;
+tic;
+[opt_mw,X_mw] = MWLovasz(A,n,0.1,beta);
+toc;
 
-
-
-
+fprintf('Optimum From CVX: %5.5f\n',cvx_optval)
+fprintf('Optimum From MW Algorithm: %5.5f\n',opt_mw)
+fprintf('Ratio of CVX/MW: %5.5f\n',cvx_optval/opt_mw)
 
