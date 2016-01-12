@@ -72,14 +72,14 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
             end
         end
         
-        [vec,eigv_max] = max_eigen(M,1);
-        if (eigv_max < -delta) %infeasible
+        [vec,eigv_max] = max_eigen(M + delta*eye(n+1),1);
+        if (eigv_max < 0) %infeasible
            done = 1;
            feasible = 0;
         end
 
         %update weights
-        Xt = R*vec*vec';   
+        Xt = R*vec*vec';
         w11 = w11*(1 - beta*(-(1/alpha)*Xt(1,1) + 1));
         for i=1:n
             w1i_p(i) = w1i_p(i)*(1 - beta*(Xt(1,i+1) - 1));
@@ -155,7 +155,7 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
        Xfeas = X_T;
     else %not feasible
        fprintf('Iteration %d is NOT feasible (%d MW updates, alpha = %f4.4)\n',niter,time,alpha)
-       alphamin = alpha;       
+       alphamin = alpha;
     end
 
     niter = niter + 1;
