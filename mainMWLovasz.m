@@ -45,7 +45,7 @@ cvx_end
 % MW Algorithm
 beta = 0.01;
 tic;
-[opt_mw,X_mw] = MWLovasz(A,n,0.01,beta);
+[opt_mw,X_mw] = MWLovasz(A,n,0.1,beta);
 toc;
 
 fprintf('Optimum From CVX: %5.5f\n',cvx_optval)

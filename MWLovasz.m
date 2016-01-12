@@ -52,27 +52,27 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
         %M is computed
         e0 = zeros(n+1,1);
         e0(1)  = 1;
-        M = w11*(-(1/alpha)*e0*e0' + (1/R)*eye(n+1));
+        M = w11*(-(1/alpha)*(e0*e0') + (1/R)*eye(n+1));
         %add up the weights: equality to 1 constraints
         for i=1:n
-            e  = zeros(n+1,1);
-            e(i+1) = 1;    
-            M = M + (w1i_p(i) - w1i_n(i))*(e0*e' - (1/R)*eye(n+1)) + (wii_p(i) - wii_n(i))*(e*e' - (1/R)*eye(n+1));
+            ei = zeros(n+1,1);
+            ei(i+1) = 1;    
+            M = M + (w1i_p(i) - w1i_n(i))*(ei*e0' - (1/R)*eye(n+1)) + (wii_p(i) - wii_n(i))*(ei*ei' - (1/R)*eye(n+1));
         end
         %add up the weights: equality to 0 constraints
         for i=1:n
             for j=i:n
                 if (A(i,j) == 0)&&(i ~= j)
-                    ei  = zeros(n+1,1);               
-                    ej  = zeros(n+1,1);
+                    ei = zeros(n+1,1);
+                    ej = zeros(n+1,1);
                     ei(i+1) = 1;
                     ej(j+1) = 1;
-                    M = M + (wij(i,j) - wij(j,i))*(ei*ej');
+                    M = M + (wij(i,j) - wij(j,i))*(ej*ei');
                 end
             end
         end
         
-        [vec,eigv_max] = max_eigen(M,2);
+        [vec,eigv_max] = max_eigen(M,1);
         if (eigv_max < -delta) %infeasible
            done = 1;
            feasible = 0;
@@ -97,12 +97,12 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
         end
         %normalisation
         wnorm = w11 + sum(w1i_p) + sum(w1i_n) + sum(wii_p) + sum(wii_n) + sum(sum(wij));
-        w11  = w11/wnorm;
+        w11 = w11/wnorm;
         w1i_p = w1i_p/wnorm;
         w1i_n = w1i_n/wnorm;
         wii_p = wii_p/wnorm;
         wii_n = wii_n/wnorm;
-        wij  = wij/wnorm;
+        wij = wij/wnorm;
 
         % Sanity check on updated weights
         wmin = min([w11,min(min(wij)),min(w1i_p),min(w1i_n),min(wii_p),min(wii_n)]);
@@ -150,12 +150,12 @@ while(((alphamax/alphamin) > 1 + eps) || (alphamax/alphamin) < 1 - eps)
     
     % Print Results of this iteration, update alpha
     if (feasible) %feasible
-       fprintf('Iteration %d is feasible (%d MW updates)\n',niter,time)
-       alphamin = alpha;
+       fprintf('Iteration %d is feasible (%d MW updates, alpha = %f4.4)\n',niter,time,alpha)
+       alphamax = alpha;
        Xfeas = X_T;
     else %not feasible
-       fprintf('Iteration %d is NOT feasible (%d MW updates)\n',niter,time)
-       alphamax = alpha;       
+       fprintf('Iteration %d is NOT feasible (%d MW updates, alpha = %f4.4)\n',niter,time,alpha)
+       alphamin = alpha;       
     end
 
     niter = niter + 1;
